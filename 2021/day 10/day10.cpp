@@ -31,5 +31,7 @@ int main()
   {
     std::cout << i << std::endl;
   }
+
+  std::cout << "bruh";
   
 }
