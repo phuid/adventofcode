@@ -27,11 +27,69 @@ int main()
 
   start("day10input.txt", inputvector);
 
-  for (auto &&i : inputvector)
-  {
-    std::cout << i << std::endl;
-  }
+  std::string startingbrackets = "([{<";
+  std::string endingbrackets = ")]}>";
 
-  std::cout << "bruh";
-  
+  int corruptionscore = 0;
+
+  for (auto &&line : inputvector)
+  {
+    while (line.length() > 2)
+    {
+      bool done = 1;
+      for (size_t i = 0; i < line.length() - 1; i++)
+      {
+        for (size_t u = 0; u < 4; u++)
+        {
+          if (line[i] == startingbrackets[u] && line[i + 1] == endingbrackets[u])
+          {
+            line.erase(i, 2);
+            // std::cout << line << std::endl;
+            done = 0;
+          }
+          else
+          {
+            for (size_t z = 1; z < 4; z++)
+            {
+              if (line[i] == startingbrackets[u] && line[i + 1] == endingbrackets[(u + z) % 4])
+              {
+                std::cout << "syntax error at col " << i + 1 << " Expected " << startingbrackets[u] << ", but found " << endingbrackets[(u + z) % 4] << " instead.: ";
+                if ((u + z) % 4 == 0)
+                {
+                  corruptionscore += 3;
+                }
+                else if ((u + z) % 4 == 1)
+                {
+                  corruptionscore += 57;
+                }
+                else if ((u + z) % 4 == 2)
+                {
+                  corruptionscore += 1197;
+                }
+                else if ((u + z) % 4 == 3)
+                {
+                  corruptionscore += 25137;
+                }
+                goto endloop;
+              }
+            }
+          }
+        }
+      }
+      if (done)
+      {
+        for (size_t u = 0; u < 4; u++)
+        {
+          if (line[line.length() - 1] == startingbrackets[u])
+          {
+            std::cout << "unfinished statement: ";
+            goto endloop;
+          }
+        }
+      }
+    }
+  endloop:
+    std::cout << line << std::endl;
+  }
+  std::cout << "corruption score: " << corruptionscore << std::endl;
 }
