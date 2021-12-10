@@ -31,6 +31,7 @@ int main()
   std::string endingbrackets = ")]}>";
 
   int corruptionscore = 0;
+  std::vector<long long int> autocompletescores;
 
   for (auto &&line : inputvector)
   {
@@ -83,6 +84,20 @@ int main()
           if (line[line.length() - 1] == startingbrackets[u])
           {
             std::cout << "unfinished statement: ";
+            long long int currentscore = 0;
+            for (int i = line.length() - 1; i >= 0; i--)
+            {
+              currentscore *= 5;
+              for (size_t character = 0; character < 4; character++)
+              {
+                if (line[i] == startingbrackets[character])
+                {
+                  currentscore += character + 1;
+                }
+              }
+            }
+            // std::cout << "*score: " << currentscore << "*";
+            autocompletescores.push_back(currentscore);
             goto endloop;
           }
         }
@@ -92,4 +107,23 @@ int main()
     std::cout << line << std::endl;
   }
   std::cout << "corruption score: " << corruptionscore << std::endl;
+  for (auto &&i : autocompletescores)
+  {
+    int biggerthan = 0;
+    for (auto &&u : autocompletescores)
+    {
+      if (i > u)
+      {
+        biggerthan++;
+      }
+      
+    }
+    if (biggerthan == autocompletescores.size() / 2)
+    {
+      std::cout << "autocompletion score: " << i << std::endl;
+    }
+    
+    
+  }
+  
 }
