@@ -2,6 +2,16 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <algorithm>
+
+struct Cave
+{
+  std::string name;
+  bool big;
+  std::vector<Cave *> connections;
+};
+
+using path = std::vector<Cave *>;
 
 void start(std::string inputfile, std::vector<std::string> &inputvector)
 {
@@ -17,16 +27,28 @@ void start(std::string inputfile, std::vector<std::string> &inputvector)
   else
   {
     std::cout << "input not open" << std::endl;
-    exit(0);
+    exit(1);
   }
 }
 
-struct Cave
+void pathfinder(path inputpath, std::vector<path> &paths)
 {
-  std::string name;
-  bool big;
-  std::vector<Cave *> connections;
-};
+  if (inputpath.back()->name != "end")
+  {
+    for (Cave *connection : inputpath.back()->connections)
+    {
+      path newpath = inputpath;
+      if (std::find(newpath.begin(), newpath.end(), connection) != newpath.end() && !connection->big)
+        continue;
+      newpath.push_back(connection);
+      pathfinder(newpath, paths);
+    }
+  }
+  else
+  {
+    paths.push_back(inputpath);
+  }
+}
 
 int main()
 {
@@ -107,15 +129,28 @@ int main()
     }
   }
 
-  
+  std::vector<path> paths;
 
-  // for (auto &&i : caves)
-  // {
-  //   std::cout << i.name << i.big;
-  //   for (auto &&u : i.connections)
-  //   {
-  //     std::cout << u->name << ',';
-  //   }
-  //   std::cout << std::endl;
-  // }
+  for (auto &&i : caves)
+  {
+    if (i.name == "start")
+    {
+      path newpath;
+      newpath.push_back(&i);
+      pathfinder(newpath, paths);
+      break;
+    }
+  }
+
+  size_t counter = 0;
+  for (auto &&i : paths)
+  {
+    // for (auto &&u : i)
+    // {
+    //   std::cout << u->name << " ";
+    // }
+    // std::cout << std::endl;
+    counter++;
+  }
+  std::cout << "counter: " << counter << std::endl;
 }
