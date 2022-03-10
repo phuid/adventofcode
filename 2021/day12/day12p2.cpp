@@ -45,7 +45,7 @@ void pathfinder(path inputpath, std::vector<path> &paths)
       pathfinder(newpath, paths);
     }
   }
-  else
+  else if (std::find(paths.begin(), paths.end(), inputpath) == paths.end())
   {
     paths.push_back(inputpath);
   }
@@ -156,16 +156,16 @@ int main()
     }
   }
 
-  std::vector<path> pathscopy = paths;
+  // std::vector<path> pathscopy = paths;
 
-  for (size_t i = 0; i < pathscopy.size(); i++)
-  {
-    if (std::count(paths.begin(), paths.end(), pathscopy[i]) > 1)
-    {
-      paths.erase(std::find(paths.begin(), paths.end(), pathscopy[i]));
-      std::cout << "erase " << i << "/" << pathscopy.size() << " = " << i/pathscopy.size() << std::endl;
-    }
-  }
+  // for (size_t i = 0; i < pathscopy.size(); i++)
+  // {
+  //   if (std::count(paths.begin(), paths.end(), pathscopy[i]) > 1)
+  //   {
+  //     paths.erase(std::find(paths.begin(), paths.end(), pathscopy[i]));
+  //     std::cout << "erase " << i << "/" << pathscopy.size() << " = " << i/pathscopy.size() << std::endl;
+  //   }
+  // }
 
   std::cout << "pathscount: " << paths.size() << std::endl;
   exit(0);
