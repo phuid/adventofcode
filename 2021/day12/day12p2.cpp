@@ -48,6 +48,8 @@ void pathfinder(path inputpath, std::vector<path> &paths)
   else if (std::find(paths.begin(), paths.end(), inputpath) == paths.end())
   {
     paths.push_back(inputpath);
+    if (paths.size() % 2500 == 0)
+      std::cout << paths.size() << std::endl;
   }
 }
 
