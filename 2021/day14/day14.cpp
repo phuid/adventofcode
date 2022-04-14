@@ -119,5 +119,5 @@ int main()
     return biggest;
   }(lettercounts);
 
-  std::cout << "smallest: " << smallest << ", biggest: " << biggest << std::endl << biggest << " - " << smallest << " = " << biggest - smallest << std::endl;
+  std::cout << "smalLest: " << smallest << ", biggest: " << biggest << std::endl << biggest << " - " << smallest << " = " << biggest - smallest << std::endl;
 }
