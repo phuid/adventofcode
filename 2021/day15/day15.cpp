@@ -51,26 +51,35 @@ int main()
   start("day15input.txt", inputvector);
 
   vector_of_points field;
-
-  for (size_t i = 0; i < inputvector.size(); i++)
+  
+  //part2˘
+  for (size_t y = 0; y < 5; y++)
   {
-    std::vector<point> currentline;
-    for (size_t u = 0; u < inputvector[i].length(); u++)
+    for (size_t i = 0; i < inputvector.size(); i++)
     {
-      currentline.push_back(point(0, (inputvector.size() - 1 - i) + (inputvector[i].length() - 1 - u), inputvector[i][u] - '0'));
+      std::vector<point> currentline;
+      for (size_t x = 0; x < 5; x++)
+      {
+        for (size_t u = 0; u < inputvector[i].length(); u++)
+        {
+          currentline.push_back(point(0, (inputvector.size() - 1 - i) + (inputvector[i].length() - 1 - u), (inputvector[i][u] - '0' + x + y - 1) % 9 + 1));
+        }
+      }
+      field.push_back(currentline);
     }
-    field.push_back(currentline);
   }
+  //part2^
 
-  for (auto &&i : field)
-  {
-    for (auto &&u : i)
-    {
-      std::cout << "<" << u.A_cost << "," << u.B_cost << "," << u.N_cost << "> ";
-    }
-    std::cout << std::endl;
-  }
-  std::cout << std::endl;
+  // //print
+  // for (auto &&i : field)
+  // {
+  //   for (auto &&u : i)
+  //   {
+  //     std::cout << "<" << u.A_cost << "," << u.B_cost << "," << u.N_cost << "> ";
+  //   }
+  //   std::cout << std::endl;
+  // }
+  // std::cout << std::endl;
 
   field[0][0].visited = 1;
 
@@ -123,29 +132,33 @@ int main()
 
     field[YCoord][XCoord].searched = 1;
 
-    // print
-    for (auto &&i : field)
-    {
-      for (auto &&u : i)
-      {
-        SetConsoleTextAttribute(hConsole, u.searched + u.visited * 2);
-        std::cout << (u.searched ? '>' : '<') << u.A_cost << (u.visited ? '_' : ',') << u.B_cost << (u.visited ? '_' : ',') << u.N_cost << (u.searched ? "< " : "> ");
-        SetConsoleTextAttribute(hConsole, 7);
-      }
-      std::cout << std::endl;
-    }
-    std::cout << std::endl;
+    std::cout << "dist to end(0-1000): " << field.size() + field[0].size() - XCoord - YCoord << std::endl;
+
+    // // print
+    // for (auto &&i : field)
+    // {
+    //   for (auto &&u : i)
+    //   {
+    //     SetConsoleTextAttribute(hConsole, u.searched + u.visited * 2);
+    //     std::cout << (u.searched ? '>' : '<') << u.A_cost << (u.visited ? '_' : ',') << u.B_cost << (u.visited ? '_' : ',') << u.N_cost << (u.searched ? "< " : "> ");
+    //     SetConsoleTextAttribute(hConsole, 7);
+    //   }
+    //   std::cout << std::endl;
+    // }
+    // std::cout << std::endl;
   }
   // print
-  for (auto &&i : field)
-  {
-    for (auto &&u : i)
-    {
-      SetConsoleTextAttribute(hConsole, u.searched + u.visited * 2);
-      std::cout << (u.searched ? '>' : '<') << u.A_cost << (u.visited ? '_' : ',') << u.B_cost << (u.visited ? '_' : ',') << u.N_cost << (u.searched ? "< " : "> ");
-      SetConsoleTextAttribute(hConsole, 7);
-    }
-    std::cout << std::endl;
-  }
-  std::cout << std::endl;
+  // for (auto &&i : field)
+  // {
+  //   for (auto &&u : i)
+  //   {
+  //     SetConsoleTextAttribute(hConsole, u.searched + u.visited * 2);
+  //     std::cout << (u.searched ? '>' : '<') << u.A_cost << (u.visited ? '_' : ',') << u.B_cost << (u.visited ? '_' : ',') << u.N_cost << (u.searched ? "< " : "> ");
+  //     SetConsoleTextAttribute(hConsole, 7);
+  //   }
+  //   std::cout << std::endl;
+  // }
+  // std::cout << std::endl;
+
+  std::cout << "total: " << field[field.size() - 1][field[field.size() - 1].size() - 1].A_cost << std::endl;
 }
