@@ -25,7 +25,7 @@ int main()
 {
   std::vector<std::string> inputvector;
 
-  start("defaultinput.txt", inputvector);
+  start("input.txt", inputvector);
 
   for (auto &&i : inputvector)
   {
